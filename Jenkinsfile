@@ -19,7 +19,7 @@ pipeline {
             steps {
                 git credentialsId: 'github', 
                 url: 'https://github.com/kunchalavikram1427/gitops-demo.git',
-                branch: 'master'
+                branch: 'dev'
             }
         }
         stage('Build Docker Image'){
@@ -61,7 +61,7 @@ pipeline {
                     git add deployment.yml
                     git commit -m 'Updated the deployment file' """
                     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                        sh "git push http://$user:$pass@github.com/kunchalavikram1427/gitops-demo.git master"
+                        sh "git push http://$user:$pass@github.com/kunchalavikram1427/gitops-demo.git dev"
                     }
                 }
             }
