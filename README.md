@@ -1,3 +1,3 @@
 # gitops-demo
 gitops-demo
-Please follow the video: https://www.youtube.com/watch?v=mhMMNl8mgbY
+Please follow the YouTube video: https://www.youtube.com/watch?v=mhMMNl8mgbY
