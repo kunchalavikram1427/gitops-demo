@@ -25,7 +25,7 @@ pipeline {
                 sh "docker push ${IMAGE_NAME}:${IMAGE_TAG} ."
                 sh "docker push ${IMAGE_NAME}:latest ."
                 sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
-                sh "docker rmi ${IMAGE_NAME}:latestt"
+                sh "docker rmi ${IMAGE_NAME}:latest"
                 }
             }
         }
