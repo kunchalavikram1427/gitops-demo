@@ -11,32 +11,26 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "echo ${BUILD_NUMBER}" 
+                sh "echo ${BUILD_NUMBER} && cd /var/lib/jenkins/workspace/pipeline && docker build -t ${IMAGE_NAME}:latest ." 
                 
             }
         }
-    
-        stage('Cleanup Workspace'){
+        
+        stage('Push & Delete Docker Images'){
             steps {
-                script {
-                    cleanWs()
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'user')]) {
+   
+                
+                sh "docker login -u $user --password $pass"
+                sh "docker push ${IMAGE_NAME}:${IMAGE_TAG} ."
+                sh "docker push ${IMAGE_NAME}:latest ."
+                sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+                sh "docker rmi ${IMAGE_NAME}:latestt"
                 }
             }
         }
-        stage('Checkout SCM'){
-            steps {
-                git credentialsId: 'github', 
-                url: 'https://github.com/dilip0007/gitops-demo.git',
-                branch: 'dev'
-            }
-        }
-
-        stage('Build Docker Image'){
-            steps {
-                 cd '/Users/dilipnigam/.jenkins/workspace/pipeline'
-                 sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
-                 sh "docker build -t ${IMAGE_NAME}:latest ."
-            }
-        }
+    
+        
+        
     }
 }
