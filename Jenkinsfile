@@ -15,6 +15,16 @@ pipeline {
                 
             }
         }
+
+        stage('Push Docker Image'){
+            steps {
+                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable:   'password',usernameVariable:'user')]) {
+                     sh "docker login -u $user --password $pass"
+                     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG} ."
+                     sh "docker push ${IMAGE_NAME}:latest ."
+                 }
+             }
+         }
         
         stage('Push & Delete Docker Images'){
             steps {
