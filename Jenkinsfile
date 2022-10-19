@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Push Docker Image'){
              steps {
-                 sshagent(['kubernetes_master']) {               
+                              
                  sh "scp deployment.yml new@ip-172-31-86-89:/home/new"
 
                     
@@ -37,7 +37,7 @@ pipeline {
                      
                      
                      
-                 }
+                 
             }
         }
     
