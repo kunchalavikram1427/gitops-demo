@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh "echo hi && echo ${BUILD_NUMBER} && cd /var/lib/jenkins/workspace/pipeline && docker build -t ${IMAGE_NAME}:latest ." 
-                
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
         stage('Push Docker Image'){
@@ -20,6 +20,7 @@ pipeline {
                  withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable:   'password',usernameVariable:'user')]) {
                      sh "docker login -u $user --password $password"
                      sh "docker push ${IMAGE_NAME}:latest"
+                     sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                      
                      
                  }
