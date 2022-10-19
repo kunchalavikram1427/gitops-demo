@@ -27,9 +27,13 @@ pipeline {
                      
                  }
             }
-        }stage('change tag') {
+        }
+        stage('change tag') {
             steps {
                 sh "echo ${DOCKER_TAG}" 
+            }
+        }
+
                 
 
         
