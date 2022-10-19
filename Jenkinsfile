@@ -36,9 +36,14 @@ pipeline {
         }
 
         stage('deploy') {
+
             steps {
+                sshagent(['kubernetes_master']) {
+    
+
                 
-                 sh "sudo sh -x x" 
+                 sh "scp -o StrictHostkeychecking=no *.yml new@ip-172-31-86-89:/home/new" 
+                }
                 
             }
 
