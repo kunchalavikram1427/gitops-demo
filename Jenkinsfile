@@ -6,6 +6,7 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
         REGISTRY_CREDS = 'dockerhub'
+        DOCKER_TAG = getDockerTag()
         }
 
     stages {
@@ -26,7 +27,10 @@ pipeline {
                      
                  }
             }
-        }
+        }stage('change tag') {
+            steps {
+                sh "echo ${DOCKER_TAG}" 
+                
 
         
     
