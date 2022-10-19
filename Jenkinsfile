@@ -30,9 +30,9 @@ pipeline {
 
         stage('deploy') {
             steps {
-                sshagent(['kubernetes_master']) {
+                
                  sh "sh x" 
-                }
+                
             }
 
         }   
