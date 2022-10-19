@@ -30,7 +30,7 @@ pipeline {
         stage('Push Docker Image'){
              steps {
                  sshagent(['kubernetes_master']) {               
-                 sh "scp -o StrictHostkeychecking=no *.yml" root@ec2-3-83-98-232.compute-1.amazonaws.com:/home/ubuntu"
+                 sh "scp deployment.yml new@ip-172-31-86-89:/home/new"
 
                     
                      
