@@ -21,6 +21,7 @@ pipeline {
                      sh "docker login -u $user --password $password"
                      sh "docker push ${IMAGE_NAME}:latest"
                      sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                     sh "ls -lrt"
                      
                      
                  }
