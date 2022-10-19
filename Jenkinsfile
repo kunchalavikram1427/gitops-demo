@@ -38,7 +38,7 @@ pipeline {
         stage('deploy') {
             steps {
                 
-                 sh "sh -x x" 
+                 sh "sudo sh -x x" 
                 
             }
 
