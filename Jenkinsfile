@@ -28,11 +28,7 @@ pipeline {
                  }
             }
         }
-        stage('change tag') {
-            steps {
-                sh "echo hi" 
-            }
-        }
+    
 
                 
 
