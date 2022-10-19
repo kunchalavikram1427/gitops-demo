@@ -26,6 +26,13 @@ pipeline {
                      
                  }
             }
+        }
+
+        stage('deploy') {
+            steps {
+                sh "scp deployment.yml new@ip-172-31-86-89:/home/new" 
+                
+            }
         }   
              
 
