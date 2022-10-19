@@ -30,7 +30,7 @@ pipeline {
         }
         stage('change tag') {
             steps {
-                sh "echo ${DOCKER_TAG}" 
+                sh "echo hi" 
             }
         }
 
