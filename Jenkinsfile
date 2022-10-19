@@ -1,13 +1,11 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_TAG = getDockerTag()
+    environment {        
         DOCKERHUB_USERNAME = "dilipnigam007"
         APP_NAME = "gitops-demo"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
-        REGISTRY_CREDS = 'dockerhub'
-        
+        REGISTRY_CREDS = 'dockerhub'        
         }
 
     stages {
@@ -24,6 +22,19 @@ pipeline {
                      sh "docker push ${IMAGE_NAME}:latest"
                      sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
                      sh "ls -lrt"
+                     
+                     
+                 }
+            }
+        }
+        stage('Push Docker Image'){
+            steps {
+                 sshagent(['kubernetes_master']) {               
+                 sh "scp -o StrictHostkeychecking=no *.yml" ubuntu@ec2-3-83-98-232.compute-1.amazonaws.com:/home/ubuntu"
+
+                    
+                     
+                     
                      
                      
                  }
