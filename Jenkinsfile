@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+        DOCKER_TAG = getDockerTag()
         DOCKERHUB_USERNAME = "dilipnigam007"
         APP_NAME = "gitops-demo"
         IMAGE_TAG = "${BUILD_NUMBER}"
