@@ -30,7 +30,7 @@ pipeline {
 
         stage('deploy') {
             steps {
-                sh "sh scp_script" 
+                sh "scp -o 'StrictHostKeyChecking no' deployment.yml new@ip-172-31-86-89:/home/new" 
                 
             }
         }   
