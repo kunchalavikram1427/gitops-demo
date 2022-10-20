@@ -43,7 +43,7 @@ pipeline {
     
 
                 
-                 sh "sudo scp -o StrictHostkeychecking=no *.yml new@ip-172-31-86-89:/home/new"  
+                 sh "sudo -vv scp -o StrictHostkeychecking=no *.yml new@ip-172-31-86-89:/home/new"  
                 }
                 
             }
