@@ -43,7 +43,7 @@ pipeline {
     
 
                 
-                 sh "scp -vvv -o StrictHostkeychecking=no *.yml new@ip-172-31-86-89:/home/new" 
+                 sh "sh -x x" 
                 }
                 
             }
