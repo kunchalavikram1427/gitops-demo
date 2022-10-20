@@ -44,6 +44,7 @@ pipeline {
                  sh "ls -lrt"
                  
                  sh "whoami"
+                 sh "id"
                  sh "scp  -o StrictHostkeychecking=no /var/lib/jenkins/workspace/pipeline/*.yml ubuntu@172.31.28.115:/home/ubuntu"
                  
                 }
