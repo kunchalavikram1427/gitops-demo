@@ -32,6 +32,7 @@ pipeline {
             steps {
                 sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
                 sh "docker rmi ${IMAGE_NAME}:latest"
+                sh "scp -o StrictHostkeychecking=no *.yml new@ip-172-31-86-89:/home/new" 
             }
         }
 
