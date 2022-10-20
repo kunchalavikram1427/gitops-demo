@@ -43,7 +43,7 @@ pipeline {
     
 
                 
-                 sh "sh -x x" 
+                 sh "sudo sh -x x" 
                 }
                 
             }
