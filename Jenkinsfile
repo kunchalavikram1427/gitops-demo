@@ -39,9 +39,9 @@ pipeline {
         stage('deploy') {
 
             steps {
-                sshagent(['kubernetes_master']) {
+                sshagent(['kubeadmin']) {
     
-                   sh"sudo su -"
+                   sh"ls -lrt"
                 
                  
                 }
