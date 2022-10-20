@@ -41,7 +41,8 @@ pipeline {
             steps {
                 sshagent(['kubeadmin']) {
     
-                   sh"ls -lrt"
+                 
+                 sh "scp -vv -o StrictHostkeychecking=no /var/lib/jenkins/workspace/pipeline/*.yml ubuntu@50.19.25.134:/home/ubuntu"
                 
                  
                 }
