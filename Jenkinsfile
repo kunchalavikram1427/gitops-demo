@@ -45,7 +45,7 @@ pipeline {
                  sh "id"
                  sh "sudo sftp ubuntu@172.31.28.115"
                  sh "sudo sh -x x"
-                 sh "ssh ubuntu@172.31.28.115 '/home/ubuntu ;kubectl apply -f .'"
+                 sh "ssh  -o StrictHostKeyChecking=no ubuntu@172.31.28.115 '/home/ubuntu ;kubectl apply -f .'"
                 
                  
                  
@@ -58,7 +58,7 @@ pipeline {
         stage('kubernetes') {
 
             steps {
-                 sshagent(['newjenkin']) {
+                sshagent(['newjenkin']) {
                     
                  sh"pwd"
     
