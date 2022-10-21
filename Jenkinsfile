@@ -58,7 +58,7 @@ pipeline {
         stage('kubernetes') {
 
             steps {
-                sshagent (credentials: ['newjenkin]) {
+                sshagent (credentials: ['newjenkin']) {
                  sh"pwd"
     
                  sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.28.115 '/home/ubuntu ;kubectl apply -f .'"
