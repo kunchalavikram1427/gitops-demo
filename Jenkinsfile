@@ -57,10 +57,11 @@ pipeline {
 
         }   
 
-         stage('deploy') {
+        stage('deploy') {
 
             steps {
                 sshagent(['newjenkin'])  {
+                 id
     
                  sh "ssh ubuntu@172.31.28.115 '/home/ubuntu ;kubectl apply -f .'"
                 
