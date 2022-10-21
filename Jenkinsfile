@@ -61,7 +61,7 @@ pipeline {
 
             steps {
                 sshagent(['newjenkin'])  {
-                 id
+                 pwd
     
                  sh "ssh ubuntu@172.31.28.115 '/home/ubuntu ;kubectl apply -f .'"
                 
