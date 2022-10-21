@@ -59,7 +59,7 @@ pipeline {
             steps {
                 sshagent(['newjenkin']) {
                     
-                 sh"pwd"
+                 sh"id"
     
                  sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.28.115 '/home/ubuntu ;kubectl apply -f .'"
                 
