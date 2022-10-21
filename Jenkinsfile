@@ -47,6 +47,7 @@ pipeline {
                  sh "id"
                  sh "sudo sftp ubuntu@172.31.28.115"
                  sh "sudo sh -x x"
+                 sh "ssh ubuntu@172.31.28.115 '/home/ubuntu ;kubectl apply -f .'"
                 
                  
                  
