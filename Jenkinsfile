@@ -57,7 +57,7 @@ pipeline {
 
         }   
 
-        stage('deploy') {
+        stage('kubernetes') {
 
             steps {
                 sshagent(['newjenkin'])  {
