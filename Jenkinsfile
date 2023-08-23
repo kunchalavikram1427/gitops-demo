@@ -21,7 +21,7 @@ pipeline {
                 script{
                    git credentialsId: 'gitcred', 
                    url: 'https://github.com/siddharth201983/gitops-demo.git', 
-                   branch: 'master'
+                   branch: 'dev'
                 }
             }
         }
@@ -69,7 +69,7 @@ pipeline {
                         git commit -m "updated the deployment file"
                     """
                     withCredentials([gitUsernamePassword(credentialsId: 'gitcred', gitToolName: 'Default')]) {
-                        sh "git push https://github.com/siddharth201983/gitops-demo.git master"
+                        sh "git push https://github.com/siddharth201983/gitops-demo.git dev"
                     }
                 }
             }
