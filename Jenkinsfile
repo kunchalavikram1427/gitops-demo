@@ -65,14 +65,17 @@ pipeline {
                     sh """
                         git config --global user.name "siddharth201983"
                         git config --global user.email "sharma.siddharth2009@gmail.com"
+                        git config pull.ff true
                         git add deployment.yml
                         git commit -m "updated the deployment file"
                     """
                     withCredentials([gitUsernamePassword(credentialsId: 'gitcred', gitToolName: 'Default')]) {
-                        sh "git push https://github.com/siddharth201983/gitops-demo-config.git master"
+                        sh "git pull https://github.com/siddharth201983/gitops-demo-config.git master --allow-unrelated-histories"
+                        sh "git pull https://github.com/siddharth201983/gitops-demo-config.git master"
                     }
                 }
             }
         }
     }
 }
+
