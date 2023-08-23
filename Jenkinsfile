@@ -69,7 +69,7 @@ pipeline {
                         git commit -m "updated the deployment file"
                     """
                     withCredentials([usernamePassword(credentialsId: 'gitcred', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                        sh "git push http://$user:$pass@github.com/siddharth201983/gitops-demo-config.git master"
+                        sh "git push http://$user:$pass@github.com/siddharth201983/gitops-demo-config.git main"
                     }
                 }
             }
