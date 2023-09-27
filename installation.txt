@@ -1,0 +1,167 @@
+------------------
+👉 Installation 
+-----------------
+✅ Java
+sudo yum update -y
+sudo amazon-linux-extras install epel -y
+sudo amazon-linux-extras install java-openjdk11 -y
+
+✅ Jenkins
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+sudo yum update -y 
+sudo yum install jenkins -y
+
+sudo service jenkins start
+sudo chkconfig jenkins on
+sudo service jenkins status
+
+ps aux | grep -i jenkins
+
+cat /etc/passwd
+
+✅ Git
+sudo yum install git -y
+
+✅ Docker
+sudo yum update -y
+sudo yum install docker -y
+sudo systemctl status docker
+sudo groupadd docker 
+sudo usermod -aG docker $USER
+sudo usermod -aG docker jenkins
+newgrp docker
+sudo systemctl enable --now docker
+
+✅ Kubectl
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+sudo yum install -y kubectl
+
+✅ Minikube
+https://aws.plainenglish.io/running-kubernetes-using-minikube-cluster-on-the-aws-cloud-4259df916a07
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/bin/minikube
+
+sudo yum install conntrack-tools -y
+
+minikube start --vm-driver=none
+
+kubectl run hello-minikube --image=gcr.io/google_containers/echoserver:1.4 --port=8080
+kubectl expose pod hello-minikube --type=NodePort
+
+
+----------------
+👉 Extras
+----------------
+🔖 Plugins
+    Docker plugin
+    Build Pipeline View
+    Generic Webhook Trigger
+    http://65.2.81.255:8080/generic-webhook-trigger/invoke?token=gitopspipeline
+
+
+🔖 Pipeline Configurations
+
+    action
+    $.action
+
+    base
+    $.pull_request.base.ref
+
+    head
+    $.pull_request.head.ref
+
+    Expression
+    ^opened dev master$
+    Text
+    $action $head $base
+
+
+stage('Trigger Repo Change Pipeline') {
+        steps {
+            sh "curl -v -k --user admin:1150c3d54f5d2b1b0bfcc8da3d371a6d9e -X POST -H 'cache-control: no-cache' -H  'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://65.0.124.243:8080/job/gitops-config-update/buildWithParameters?token=gitops-config-update'"
+            }
+        }
+
+
+----------------------------------------------------------------
+
+pipeline {
+    agent any
+     environment {
+        DOCKERHUB_USERNAME = "kunchalavikram"
+        APP_NAME = "gitops-demo-app"
+        IMAGE_NAME=  "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
+        REGISTRY_CREDS = 'dockerhub'                     
+    }
+    stages{
+        
+        stage('print') {
+            steps {
+                print IMAGE_TAG
+            }
+        }
+        
+        stage('Workspace CleanUp'){
+            steps{
+                script{
+                    cleanWs()
+                }
+            }
+        }
+
+        stage('Checkout SCM') {
+            steps {
+                git credentialsId: 'github_token', 
+                url: 'https://github.com/kunchalavikram1427/gitops-demo-config.git',
+                branch: 'master'
+            }
+        }
+        
+        stage('Update Kubernetes deployment file'){
+            steps {
+                script {    
+                    sh "cat deployment.yml"
+                    sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml"
+                    sh "cat deployment.yml"               
+                }
+            }
+        }
+        stage('Push the updated files to Git'){
+            steps {
+                script {
+                    sh """
+                    git config --global user.name 'vikram'
+                    git config --global user.email 'vikram@gmail.com' 
+                    git add deployment.yml
+                    git commit -m 'Updated deployment files' """
+                    withCredentials([usernamePassword(credentialsId: 'github_token', passwordVariable: 'password', usernameVariable: 'username')]) {
+                        sh "git push http://$username:$password@github.com/kunchalavikram1427/gitops-demo-config.git master" 
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
+post {
+    always {
+            mail to: 'vikram@gmail.com',
+            subject: "Status of CI Pipeline: ${currentBuild.fullDisplayName}",
+            body: "${env.BUILD_URL} has result ${currentBuild.result}"
+            }
+    }
